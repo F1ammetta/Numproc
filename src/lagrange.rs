@@ -32,7 +32,7 @@ fn main() {
         if n != 1 {
             md_table.push_str(&format!("|Grado|{}|   |   |\r", n));
         }
-        md_table.push_str("|X|Y|Y lagrange|Err|\r");
+        md_table.push_str("|X|Y|Y lagrange|Err %|\r");
         for xii in (10..500).step_by(20) {
             let xi = xii as f64;
 
@@ -58,12 +58,12 @@ fn main() {
                 xi,
                 ogy[ogx.iter().position(|&x| x == xi).unwrap()],
                 y1,
-                err
+                err * 100.0
             ));
         }
         md_table.push_str(&format!(
             "|Err promedio|{:.4}|\r",
-            errs.iter().sum::<f64>() / errs.len() as f64
+            (errs.iter().sum::<f64>() / errs.len() as f64) * 100.0
         ));
     }
     std::fs::write("lagrange.md", md_table).unwrap();
