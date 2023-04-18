@@ -26,9 +26,9 @@ fn main() {
         .map(|(_, y)| *y)
         .collect::<Vec<_>>();
     let mut md_table = String::new();
+    let mut cstm_table = String::new();
     md_table.push_str(&format!("|Grado|{}|   |   |\r|---|---|---|---|\r", 1));
     for n in 1..=8 {
-        let mut cstm_table = String::new();
         let mut errs = Vec::<f64>::new();
         if n != 1 {
             md_table.push_str(&format!("|Grado|{}|   |   |\r", n));
@@ -67,12 +67,12 @@ fn main() {
             (errs.iter().sum::<f64>() / errs.len() as f64) * 100.0
         ));
         cstm_table.push_str(&format!(
-            "{},{:.4}",
+            "{} {:.4}\n",
             n,
             (errs.iter().sum::<f64>() / errs.len() as f64) * 100.0
         ));
-        std::fs::write(&format!("lagrange{}.txt", n), cstm_table).unwrap();
     }
+    std::fs::write("lagrange.txt", cstm_table).unwrap();
     std::fs::write("lagrange.md", md_table).unwrap();
     println!("Tabla guardada en lagrange.md");
 }
