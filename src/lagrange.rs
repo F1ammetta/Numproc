@@ -26,7 +26,7 @@ fn main() {
         .map(|(_, y)| *y)
         .collect::<Vec<_>>();
     let mut md_table = String::new();
-    md_table.push_str(&format!("|Grado|   |   |{}|\r|---|---|---|---|\r", 1));
+    md_table.push_str(&format!("|Grado|{}|   |   |\r|---|---|---|---|\r", 1));
     for n in 1..=8 {
         let mut errs = Vec::<f64>::new();
         if n != 1 {
