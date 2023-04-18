@@ -30,7 +30,7 @@ fn main() {
     for n in 1..=8 {
         let mut errs = Vec::<f64>::new();
         if n != 1 {
-            md_table.push_str(&format!("|Grado|   |   |{}|\r", n));
+            md_table.push_str(&format!("|Grado|{}|   |   |\r", n));
         }
         md_table.push_str("|X|Y|Y lagrange|Err|\r");
         for xii in (10..500).step_by(20) {
