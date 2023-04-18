@@ -26,11 +26,14 @@ fn main() {
         .map(|(_, y)| *y)
         .collect::<Vec<_>>();
     let mut md_table = String::new();
+    md_table.push_str(&format!("|Grado|   |   |{}|\r|---|---|---|---|\r", 1));
     for n in 1..=8 {
         println!("n: {}", n);
         let mut errs = Vec::<f64>::new();
-        md_table.push_str(&format!("|Grado|{}|\r", n));
-        md_table.push_str("|X|Y|Y lagrange|Err|\r|---|---|---|---|\r");
+        if n != 1 {
+            md_table.push_str(&format!("|{}|   |   |{}|\r", n, n));
+        }
+        md_table.push_str("|X|Y|Y lagrange|Err|\r");
         for xii in (10..500).step_by(20) {
             let xi = xii as f64;
 
