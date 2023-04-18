@@ -50,8 +50,25 @@ fn main() {
 
     std::fs::write("C:\\Users\\Sergio\\numproc\\table.tex", latex_table).unwrap();
 
-    let root = BitMapBackend::new("C:\\Users\\Sergio\\numproc\\plotss.png", (1360, 1020))
-        .into_drawing_area();
+    let lagrangedata = std::fs::read_to_string("lagrange.txt").unwrap();
+
+    let lagrange: Vec<(f64, f64)> = lagrangedata
+        .lines()
+        .map(|line| {
+            let mut parts = line.split_whitespace();
+            let x = parts.next().unwrap().parse::<f64>().unwrap();
+            let y = parts.next().unwrap().parse::<f64>().unwrap();
+            (x, y)
+        })
+        .collect();
+
+    let lmax = lagrange
+        .iter()
+        .map(|(_, y)| y)
+        .max_by(|a, b| a.partial_cmp(b).unwrap())
+        .unwrap();
+
+    let root = BitMapBackend::new("plotss.png", (1360, 1020)).into_drawing_area();
     root.fill(&WHITE).unwrap();
 
     let mut chart = ChartBuilder::on(&root)
@@ -129,4 +146,39 @@ fn main() {
         .unwrap();
 
     root.present().unwrap();
+
+    let root2 = BitMapBackend::new("lagrange.png", (1360, 1020)).into_drawing_area();
+    root2.fill(&WHITE).unwrap();
+
+    let mut chart2 = ChartBuilder::on(&root2)
+        .caption(
+            "Lagrange",
+            ("times new roman", 50).into_font().color(&BLACK),
+        )
+        .margin(20)
+        .x_label_area_size(60)
+        .y_label_area_size(100)
+        .build_cartesian_2d(0..(lagrange.last().unwrap().0) as i32, 0.0..lmax * 1.1)
+        .unwrap();
+
+    chart2
+        .configure_mesh()
+        .axis_style(&BLACK)
+        .label_style(("times new roman", 20).into_font().color(&BLACK))
+        .light_line_style(&TRANSPARENT)
+        .bold_line_style(&BLACK.mix(0.6))
+        .x_desc("Grado del polinomio")
+        .y_desc("Error (%)")
+        .axis_desc_style(("times new roman", 30).into_font().color(&BLACK))
+        .draw()
+        .unwrap();
+
+    chart2
+        .draw_series(LineSeries::new(
+            lagrange.iter().map(|(x, y)| (*x as i32, *y)),
+            Into::<ShapeStyle>::into(&RED).stroke_width(2),
+        ))
+        .unwrap();
+
+    root2.present().unwrap();
 }
