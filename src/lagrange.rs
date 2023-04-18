@@ -29,7 +29,7 @@ fn main() {
     for n in 1..=8 {
         println!("n: {}", n);
         let mut errs = Vec::<f64>::new();
-        md_table.push_str(&format!("|Grado|{}|\r|---|---|---|---", n));
+        md_table.push_str(&format!("|Grado|||{}|\r|---|---|---|---", n));
         md_table.push_str("|X|Y|Y lagrange|Err|\r|---|---|---|---|\r");
         for xii in (10..500).step_by(20) {
             let xi = xii as f64;
@@ -67,7 +67,7 @@ fn main() {
             ));
         }
         md_table.push_str(&format!(
-            "|Err promedio|{}|\r",
+            "|Err promedio|||{}|\r",
             errs.iter().sum::<f64>() / errs.len() as f64
         ));
         println!(
