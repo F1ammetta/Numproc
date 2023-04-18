@@ -29,8 +29,8 @@ fn main() {
     for n in 1..=8 {
         println!("n: {}", n);
         let mut errs = Vec::<f64>::new();
-        md_table.push_str(&format!("|Grado|{}|\r", n));
-        md_table.push_str("|X|Y|Y_l|Err|\r|---|---|---|---|\r");
+        md_table.push_str(&format!("|Grado|{}|\r|---|---|---|---", n));
+        md_table.push_str("|X|Y|Y lagrange|Err|\r|---|---|---|---|\r");
         for xii in (10..500).step_by(20) {
             let xi = xii as f64;
 
