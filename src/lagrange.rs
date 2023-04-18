@@ -28,10 +28,9 @@ fn main() {
     let mut md_table = String::new();
     md_table.push_str(&format!("|Grado|   |   |{}|\r|---|---|---|---|\r", 1));
     for n in 1..=8 {
-        println!("n: {}", n);
         let mut errs = Vec::<f64>::new();
         if n != 1 {
-            md_table.push_str(&format!("|{}|   |   |{}|\r", n, n));
+            md_table.push_str(&format!("|Grado|   |   |{}|\r", n));
         }
         md_table.push_str("|X|Y|Y lagrange|Err|\r");
         for xii in (10..500).step_by(20) {
@@ -53,16 +52,9 @@ fn main() {
                 y1 += y[i] * li[i];
             }
             let err = (ogy[ogx.iter().position(|&x| x == xi).unwrap()] - y1).abs();
-            println!(
-                "X: {}, Y (real): {:.2}, Y (interpol): {:.2}, Err: {:.2}",
-                xi,
-                ogy[ogx.iter().position(|&x| x == xi).unwrap()],
-                y1,
-                err
-            );
             errs.push(err);
             md_table.push_str(&format!(
-                "|{}|{}|{}|{}|\r",
+                "|{}|{:.4}|{:.4}|{:.4}|\r",
                 xi,
                 ogy[ogx.iter().position(|&x| x == xi).unwrap()],
                 y1,
@@ -70,13 +62,10 @@ fn main() {
             ));
         }
         md_table.push_str(&format!(
-            "|Err promedio|{}|\r",
+            "|Err promedio|{:.4}|\r",
             errs.iter().sum::<f64>() / errs.len() as f64
         ));
-        println!(
-            "Avg err: {:.2}",
-            errs.iter().sum::<f64>() / errs.len() as f64
-        );
     }
     std::fs::write("lagrange.md", md_table).unwrap();
+    println!("Tabla guardada en lagrange.md");
 }
