@@ -52,7 +52,9 @@ fn main() {
             for i in 0..n {
                 y1 += y[i] * li[i];
             }
-            let err = (ogy[ogx.iter().position(|&x| x == xi).unwrap()] - y1).abs();
+            let err = ((ogy[ogx.iter().position(|&x| x == xi).unwrap()] - y1)
+                / ogy[ogx.iter().position(|&x| x == xi).unwrap()])
+            .abs();
             errs.push(err);
             md_table.push_str(&format!(
                 "|{}|{:.4}|{:.4}|{:.4}|\r",
